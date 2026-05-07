@@ -1,0 +1,415 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Outfit:wght@400;500;600;700;800;900&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #0047AB; /* Royal/Navy mix as requested */
+  --color-primary-dark: #003380;
+  --color-action: #FF6600; /* High-visibility orange */
+  --color-action-hover: #E65C00;
+  --color-dark-bg: #0F172A;
+  
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Outfit", "Inter", sans-serif;
+}
+
+@layer base {
+  body {
+    @apply text-slate-900 bg-white font-sans antialiased;
+    overflow-x: hidden;
+  }
+}
+
+/* ============================================
+   SCROLL REVEAL ANIMATIONS
+   ============================================ */
+
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal-left {
+  opacity: 0;
+  transform: translateX(-50px);
+  transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal-left.revealed {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.reveal-right {
+  opacity: 0;
+  transform: translateX(50px);
+  transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal-right.revealed {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.reveal-scale {
+  opacity: 0;
+  transform: scale(0.88);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal-scale.revealed {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Stagger delays for children */
+.stagger-1 { transition-delay: 0.05s; }
+.stagger-2 { transition-delay: 0.15s; }
+.stagger-3 { transition-delay: 0.25s; }
+.stagger-4 { transition-delay: 0.35s; }
+.stagger-5 { transition-delay: 0.45s; }
+.stagger-6 { transition-delay: 0.55s; }
+
+/* ============================================
+   MARQUEE / TICKER
+   ============================================ */
+
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee 24s linear infinite;
+}
+
+.marquee-track:hover {
+  animation-play-state: paused;
+}
+
+.marquee-wrapper {
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+/* ============================================
+   PARALLAX HERO
+   ============================================ */
+
+.parallax-bg {
+  will-change: transform;
+}
+
+/* ============================================
+   NOISE TEXTURE
+   ============================================ */
+
+.noise-overlay::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.4;
+}
+
+/* ============================================
+   ANIMATED COUNTER
+   ============================================ */
+
+.counter-number {
+  display: inline-block;
+  transition: all 0.3s ease;
+}
+
+/* ============================================
+   GLITCH / HIGHLIGHT TEXT EFFECT
+   ============================================ */
+
+@keyframes glow-pulse {
+  0%, 100% { text-shadow: 0 0 20px rgba(255, 102, 0, 0.4); }
+  50% { text-shadow: 0 0 40px rgba(255, 102, 0, 0.8), 0 0 80px rgba(255, 102, 0, 0.3); }
+}
+
+.text-glow {
+  animation: glow-pulse 3s ease-in-out infinite;
+}
+
+/* ============================================
+   MAGNETIC BUTTON EFFECT
+   ============================================ */
+
+.btn-magnetic {
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease;
+}
+
+.btn-magnetic:hover {
+  box-shadow: 0 20px 60px rgba(255, 102, 0, 0.4);
+}
+
+/* ============================================
+   HERO KINETIC LINE
+   ============================================ */
+
+@keyframes line-grow {
+  from { scaleX: 0; }
+  to { scaleX: 1; }
+}
+
+@keyframes slide-in-word {
+  from { 
+    opacity: 0; 
+    transform: translateY(60px) skewY(3deg);
+    filter: blur(4px);
+  }
+  to { 
+    opacity: 1; 
+    transform: translateY(0) skewY(0);
+    filter: blur(0);
+  }
+}
+
+.word-reveal {
+  display: inline-block;
+  overflow: hidden;
+}
+
+.word-reveal span {
+  display: inline-block;
+  animation: slide-in-word 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* ============================================
+   CARD HOVER LIFT
+   ============================================ */
+
+.card-lift {
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
+              box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.card-lift:hover {
+  transform: translateY(-8px) scale(1.01);
+  box-shadow: 0 32px 80px rgba(0, 71, 171, 0.15), 0 0 0 1px rgba(0, 71, 171, 0.05);
+}
+
+/* ============================================
+   PROGRESS BAR ANIMATION
+   ============================================ */
+
+@keyframes progress-fill {
+  from { width: 0; }
+  to { width: var(--target-width); }
+}
+
+.progress-bar {
+  animation: progress-fill 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation-play-state: paused;
+}
+
+.progress-bar.animate {
+  animation-play-state: running;
+}
+
+/* ============================================
+   ROTATING BADGE
+   ============================================ */
+
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.spin-slow {
+  animation: spin-slow 12s linear infinite;
+}
+
+/* ============================================
+   SCANLINE EFFECT
+   ============================================ */
+
+@keyframes scanline {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100vh); }
+}
+
+/* ============================================
+   STAT COUNTER FLIP
+   ============================================ */
+
+@keyframes count-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ============================================
+   GRADIENT BORDER
+   ============================================ */
+
+.gradient-border {
+  position: relative;
+  background: white;
+  border-radius: 1rem;
+}
+
+.gradient-border::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: 1.125rem;
+  background: linear-gradient(135deg, #0047AB, #FF6600, #0047AB);
+  background-size: 200% 200%;
+  animation: gradient-rotate 4s linear infinite;
+  z-index: -1;
+}
+
+@keyframes gradient-rotate {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* ============================================
+   HORIZONTAL SCROLL
+   ============================================ */
+
+@keyframes scroll-x {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+.scroll-x {
+  animation: scroll-x 20s linear infinite;
+}
+
+/* ============================================
+   FLOATING ELEMENTS
+   ============================================ */
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-12px); }
+}
+
+.float-anim {
+  animation: float 5s ease-in-out infinite;
+}
+
+@keyframes float-delayed {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
+}
+
+.float-anim-2 {
+  animation: float-delayed 6s ease-in-out 1s infinite;
+}
+
+/* ============================================
+   LIGHTNING BOLT PULSE
+   ============================================ */
+
+@keyframes zap-pulse {
+  0% { opacity: 0.1; transform: scale(1) rotate(-5deg); }
+  50% { opacity: 0.25; transform: scale(1.05) rotate(-5deg); }
+  100% { opacity: 0.1; transform: scale(1) rotate(-5deg); }
+}
+
+.zap-bg {
+  animation: zap-pulse 4s ease-in-out infinite;
+}
+
+/* ============================================
+   SECTION DIVIDERS
+   ============================================ */
+
+.section-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(0, 71, 171, 0.3), transparent);
+}
+
+/* ============================================
+   BACKGROUND GRID
+   ============================================ */
+
+.bg-grid {
+  background-image: 
+    linear-gradient(rgba(0, 71, 171, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 71, 171, 0.03) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+
+/* ============================================
+   EXISTING UTILITIES
+   ============================================ */
+
+.bg-storm-gradient {
+  background: linear-gradient(to bottom, rgba(15, 23, 42, 0.8), rgba(15, 23, 42, 0.95));
+}
+
+.text-shadow-hero {
+  text-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Specific component styles */
+.btn-primary {
+  @apply bg-action hover:bg-action-hover text-white font-black py-4 px-8 rounded-md transition-all uppercase tracking-widest text-sm flex items-center justify-center gap-2;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-primary::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, transparent 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.btn-primary:hover::after {
+  opacity: 1;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 40px rgba(255, 102, 0, 0.4);
+}
+
+.btn-secondary {
+  @apply border-2 border-primary text-primary font-black py-4 px-8 rounded-md transition-all uppercase tracking-widest text-sm flex items-center justify-center gap-2;
+}
+
+.btn-ghost {
+  @apply border-2 border-white text-white font-black py-4 px-8 rounded-md transition-all uppercase tracking-widest text-sm flex items-center justify-center gap-2 bg-transparent hover:bg-white/10;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.btn-ghost:hover {
+  transform: translateY(-2px);
+}
